@@ -1,0 +1,54 @@
+class Robot {
+public:
+    int width, height;
+    int x = 0, y = 0;
+    string dir = "East";
+
+    Robot(int width, int height) {
+        this->width = width;
+        this->height = height;
+    }
+
+    void step(int num) {
+        int perimeter = 2 * (width + height) - 4;
+
+        if (perimeter == 0) return;
+
+        num %= perimeter;
+
+        // Special rule
+        if (num == 0 && x == 0 && y == 0)
+            dir = "South";
+
+        while (num--) {
+
+            if (dir == "East") {
+                if (x + 1 < width) x++;
+                else dir = "North", num++;
+            }
+
+            else if (dir == "North") {
+                if (y + 1 < height) y++;
+                else dir = "West", num++;
+            }
+
+            else if (dir == "West") {
+                if (x - 1 >= 0) x--;
+                else dir = "South", num++;
+            }
+
+            else { // South
+                if (y - 1 >= 0) y--;
+                else dir = "East", num++;
+            }
+        }
+    }
+
+    vector<int> getPos() {
+        return {x, y};
+    }
+
+    string getDir() {
+        return dir;
+    }
+};
